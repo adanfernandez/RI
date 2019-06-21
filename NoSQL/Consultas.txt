@@ -1,0 +1,38 @@
+CONSULTAS ELEMENTALES
+
+	1.-
+		MATCH (m:Futbolista)-[:JUEGA_EN]->(n:Equipo)					 
+		WHERE n.NombreEquipo="Manchester United" and m.Demarcación="Portero"                
+		RETURN m.Nombre, m.Apellidos, m.Edad, m.Demarcación, m.Nacionalidad, m.AlturaCm, m.PesoKg
+		
+	2.-
+		MATCH (c:Competicion)-[:ESTA_EN]->(p:Pais) 					                
+		WHERE p.NombrePais="España" AND c.numeroEquipos>20 AND c.duracionMeses=10       
+		RETURN c.NombreCompeticion, c.numeroEquipos ORDER BY c.numeroEquipos DESC
+		
+CONSULTAS INTERMEDIAS
+
+	1.-
+		MATCH (m:Futbolista)-[:JUEGA_EN]->(n:Equipo)-[:ESTA_EN]->(p:Competicion)                   
+		WHERE p.NombreCompeticion="Premier League" 				              
+		RETURN avg(m.Edad) as EdadMedia, count(*) as NúmeroFutbolistas
+		
+	2.- 
+		MATCH (m:Futbolista)-[:JUEGA_EN]->(n:Equipo)-[:ESTA_EN]->(c:Competicion)-[:ESTA_EN]->(p:Pais)									                
+		WHERE p.NombrePais="España"  and not m.Nacionalidad="España" and not((n)-[:GANO]->()) 
+		RETURN distinct m.Nombre, m.Apellidos
+		
+CONSULTAS AVANZADAS
+
+	1.- 
+		MATCH (m:Futbolista)-[:JUEGA_EN]->(e:Equipo)<-[:JUEGA_EN]-(m2:Futbolista)   	   
+		WHERE NOT ((m) = (m2)) AND NOT (m.Demarcación=m2.Demarcación) AND (m.Nacionalidad=m2.Nacionalidad) AND NOT (m.Edad=m2.Edad) 		              
+		RETURN distinct  m.Nombre, m2.Nombre
+		
+	2.-
+		MATCH (a:Futbolista)-[:JUGO_EN]->(b:Equipo)<-[:JUEGA_EN]-(c:Futbolista)          	  
+		WHERE not (a.Edad = c.Edad) and not(a.Demarcación = c.Demarcación) and not ((b)-[:GANO]->())										               
+		RETURN a.Nombre, c.Nombre
+		
+
+CONTRASEÑA NEO4J: adanpelayo

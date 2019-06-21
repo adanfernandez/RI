@@ -1,0 +1,837 @@
+
+----------------------------------------------AMERICAN FOOTBALL CONFERENCE-------------------------------------------------------
+CONSULTA 1
+{
+    "size": 10,
+    "query": {
+        "bool": {
+            "must": [
+                {
+                    "match": 
+                    {
+                        "text": "american"
+                    }
+                },
+                {
+                    "match": 
+                    {
+                        "text":"football"
+                    }
+                },
+                {
+                    "match": 
+                    {
+                        "text":"conference"
+
+                    }
+                }
+            ]
+        }
+        
+    }
+}	
+	
+CONSULTA 2
+
+{
+    "size": 10,
+    "query": {
+        "bool": {
+            "should": [
+                {
+                    "match": 
+                    {
+                        "text": "american"
+                    }
+                },
+                {
+                    "match": 
+                    {
+                        "text":"football"
+                    }
+                },
+                {
+                    "match": 
+                    {
+                        "text":"conference"
+
+                    }
+                }
+            ]
+        }
+        
+    }
+}	
+
+CONSULTA 3
+{
+    "size": 10,
+    "query": {
+        "bool": {
+            "should": [
+                {
+                    "bool": {
+                        "must": 
+                        [
+                            {
+                                "match": 
+                                {
+                                    "text":"american"
+                                }
+                            },
+                            {
+                                "match": 
+                                {
+                                    "text":"football"
+                                }
+                            }
+                        ]
+                    }
+                },
+                {
+                    "match": 
+                    {
+                        "text":"conference"
+                    }
+                }
+            ]
+        }
+        
+    }
+}
+
+----------------------------------------------DAVID TYREE-------------------------------------------------------
+CONSULTA 1
+{
+    "size": 10,
+    "query": {
+        "bool": {
+            "must": [
+                {
+                    "match": 
+                    {
+                        "text": "David"
+                    }
+                },
+                {
+                    "match": 
+                    {
+                        "text":"Tyree"
+                    }
+                }
+            ]
+        }
+        
+    }
+}
+
+CONSULTA 2
+{
+    "size": 10,
+    "query": {
+        "bool": {
+            "should": [
+                {
+                    "match": 
+                    {
+                        "text": "David"
+                    }
+                },
+                {
+                    "match": 
+                    {
+                        "text":"Tyre"
+                    }
+                }
+            ]
+        }
+        
+    }
+}
+
+----------------------------------------------DEFENSIVE END-------------------------------------------------------
+CONSULTA 1
+{
+    "size": 10,
+    "query": {
+        "bool": {
+            "must": [
+                {
+                    "match": 
+                    {
+                        "text": "defensive"
+                    }
+                },
+                {
+                    "match": 
+                    {
+                        "text":"end"
+                    }
+                }
+            ]
+        }
+        
+    }
+}	
+
+CONSULTA 2
+{
+    "size": 10,
+    "query": {
+        "bool": {
+            "should": [
+                {
+                    "match": 
+                    {
+                        "text": "defensive"
+                    }
+                },
+                {
+                    "match": 
+                    {
+                        "text":"end"
+                    }
+                }
+            ]
+        }
+        
+    }
+}		
+
+----------------------------------------------football-------------------------------------------------------
+CONSULTA 1
+{
+    "size": 10,
+    "query": {
+        "bool": {
+            "must": [
+                {
+                    "match": 
+                    {
+                        "text": "football"
+                    }
+                }
+            ]
+        }
+        
+    }
+}	
+
+CONSULTA 2
+{
+    "size": 10,
+    "query": {
+        "bool": {
+            "should": [
+                {
+                    "match": 
+                    {
+                        "text": "football"
+                    }
+                }
+            ]
+        }
+        
+    }
+}		
+
+----------------------------------------------Glendale-------------------------------------------------------
+CONSULTA 1
+{
+    "size": 10,
+    "query": {
+        "bool": {
+            "must": [
+                {
+                    "match": 
+                    {
+                        "text": "Glendale"
+                    }
+                }
+            ]
+        }
+        
+    }
+}	
+
+CONSULTA 2
+{
+    "size": 10,
+    "query": {
+        "bool": {
+            "should": [
+                {
+                    "match": 
+                    {
+                        "text": "Glendale"
+                    }
+                }
+            ]
+        }
+        
+    }
+}		
+CONSULTA 3
+{
+    "size": 10,
+    "query": {
+        "bool": {
+            "must": [
+                {
+                    "match": 
+                    {
+                        "text": "Glendale"
+                    }
+                },
+                {
+                    "match":
+                    {
+                        "text": "city"
+                    }
+                }
+            ]
+        }
+        
+    }
+}	
+----------------------------------------------NATIONAL FOOTBALL CONFERENCE-------------------------------------------------------
+CONSULTA 1
+{
+    "size": 10,
+    "query": {
+        "bool": {
+            "must": [
+                {
+                    "term": {
+                        "text": {
+                            "value": "national"
+                        }
+                        
+                    }
+                },
+                {
+                    "term": {
+                        "text": {
+                            "value": "football"
+                        }
+                        
+                    }
+                },
+                {
+                    "term": {
+                        "text": {
+                            "value": "conference"
+                        }
+                        
+                    }
+                }
+            ]
+        }
+        
+    }
+}
+CONSULTA 2
+{
+    "size": 10,
+    "query": {
+        "bool": {
+            "should": [
+                {
+                    "term": {
+                        "text": {
+                            "value": "national"
+                        }
+                        
+                    }
+                },
+                {
+                    "term": {
+                        "text": {
+                            "value": "football"
+                        }
+                        
+                    }
+                },
+                {
+                    "term": {
+                        "text": {
+                            "value": "conference",
+                            "boost":10
+                        }
+                        
+                    }
+                }
+            ]
+        }
+        
+    }
+}
+CONSULTA 3
+{
+    "size": 10,
+    "query": {
+        "bool": {
+            "should": [
+                {
+                    "bool": {
+                        "must": 
+                        [
+                            {
+                                "term": 
+                                {
+                                    "text":{
+                                        "value": "american"
+                                    }
+                                }
+                            },
+                            {
+                                "term": 
+                                {
+                                    "text":{
+                                        "value": "football"
+                                    }
+                                }
+                            }
+                        ]
+                    }
+                },
+                {
+                    "term": 
+                            {
+                                "text":{
+                                    "value": "conference",
+                                    "boost":10
+                                }
+                            }
+                }
+            ]
+        }
+        
+    }
+}
+
+----------------------------------------------NATIONAL FOOTBALL LEAGUE-------------------------------------------------------
+CONSULTA 1
+{
+    "size": 10,
+    "query": {
+        "bool": {
+            "must": [
+                {
+                    "term": {
+                        "text": {
+                            "value": "national"
+                        }
+                        
+                    }
+                },
+                {
+                    "term": {
+                        "text": {
+                            "value": "football"
+                        }
+                        
+                    }
+                },
+                {
+                    "term": {
+                        "text": {
+                            "value": "league"
+                        }
+                        
+                    }
+                }
+            ]
+        }
+        
+    }
+}
+CONSULTA 2
+{
+    "size": 10,
+    "query": {
+        "bool": {
+            "should": [
+                {
+                    "term": {
+                        "text": {
+                            "value": "national"
+                        }
+                        
+                    }
+                },
+                {
+                    "term": {
+                        "text": {
+                            "value": "football"
+                        }
+                        
+                    }
+                },
+                {
+                    "term": {
+                        "text": {
+                            "value": "league",
+                            "boost":10
+                        }
+                        
+                    }
+                }
+            ]
+        }
+        
+    }
+}
+CONSULTA 3
+{
+    "size": 10,
+    "query": {
+        "bool": {
+            "should": [
+                {
+                    "bool": {
+                        "must": 
+                        [
+                            {
+                                "term": 
+                                {
+                                    "text":{
+                                        "value": "american"
+                                    }
+                                }
+                            },
+                            {
+                                "term": 
+                                {
+                                    "text":{
+                                        "value": "football"
+                                    }
+                                }
+                            }
+                        ]
+                    }
+                },
+                {
+                    "term": 
+                            {
+                                "text":{
+                                    "value": "league",
+                                    "boost":10
+                                }
+                            }
+                }
+            ]
+        }
+        
+    }
+}
+----------------------------------------------NEW ENGLAND PATRIOTS-------------------------------------------------------
+CONSULTA 1
+{
+    "size": 10,
+    "query": {
+        "bool": {
+            "must": [
+                {
+                    "match": 
+                    {
+                        "text":"new"
+                    }
+                },
+                {
+                    "match": 
+                    {
+                        "text":"England"
+                    }
+                },
+                {
+                    "match": 
+                    {
+                        "text":"Patriots"
+                    }
+                }
+            ]
+        }
+        
+    }
+}
+
+CONSULTA 2
+{
+    "size": 10,
+    "query": {
+        "bool": {
+            "should": [
+                {
+                    "match": 
+                    {
+                        "text":"new"
+                    }
+                },
+                {
+                    "match": 
+                    {
+                        "text":"England"
+                    }
+                },
+                {
+                    "match": 
+                    {
+                        "text":"Patriots"
+                    }
+                }
+            ]
+        }
+        
+    }
+}
+CONSULTA 3
+{
+    "size": 10,
+    "query": {
+        "bool": {
+            "should": [
+                {
+                    "bool": {
+                        "must": 
+                        [
+                            {
+                                "match": 
+                                {
+                                    "text":"patriots"
+                                }
+                            },
+                            {
+                                "match": 
+                                {
+                                    "text":"England"
+                                }
+                            }
+                        ]
+                    }
+                },
+                {
+                    "match": 
+                    {
+                        "text":"new"
+                    }
+                }
+            ]
+        }
+        
+    }
+}
+
+----------------------------------------------NEW YORK-------------------------------------------------------
+CONSULTA 1
+{
+    "size": 10,
+    "query": {
+        "bool": {
+            "must": [
+                {
+                    "match": 
+                    {
+                        "text":"new"
+                    }
+                },
+                {
+                    "match": 
+                    {
+                        "text":"York"
+                    }
+                }
+            ]
+        }
+        
+    }
+}
+CONSULTA 2
+{
+    "size": 10,
+    "query": {
+        "bool": {
+            "should": [
+                {
+                    "match": 
+                    {
+                        "text":"new"
+                    }
+                },
+                {
+                    "match": 
+                    {
+                        "text":"York"
+                    }
+                }
+            ]
+        }
+        
+    }
+}
+
+----------------------------------------------NEW YORK GIANTS-------------------------------------------------------
+CONSULTA 1
+{
+    "size": 10,
+    "query": {
+        "bool": {
+            "must": [
+                {
+                    "term": {
+                        "text": {
+                            "value": "new"
+                        }
+                        
+                    }
+                },
+                {
+                    "term": {
+                        "text": {
+                            "value": "york"
+                        }
+                        
+                    }
+                },
+                {
+                    "term": {
+                        "text": {
+                            "value": "giants"
+                        }
+                        
+                    }
+                }
+            ]
+        }
+        
+    }
+}
+CONSULTA 2
+{
+    "size": 10,
+    "query": {
+        "bool": {
+            "should": [
+                {
+                    "bool": {
+                        "must": 
+                        [
+                            {
+                                "term": 
+                                {
+                                    "text":{
+                                        "value": "new"
+                                    }
+                                }
+                            },
+                            {
+                                "term": 
+                                {
+                                    "text":{
+                                        "value": "york"
+                                    }
+                                }
+                            }
+                        ]
+                    }
+                },
+                {
+                    "term": 
+                            {
+                                "text":{
+                                    "value": "giants",
+                                    "boost":10
+                                }
+                            }
+                }
+            ]
+        }
+        
+    }
+}
+
+
+----------------------------------------------UNIVERSITY OF PHOENIX-------------------------------------------------------
+CONSULTA 1
+
+{
+    "size": 10,
+    "query": {
+        "bool": {
+            "must": [
+                {
+                    "match": 
+                    {
+                        "text":"university"
+                    }
+                },
+                {
+                    "match": 
+                    {
+                        "text":"of"
+                    }
+                },
+                {
+                    "match": 
+                    {
+                        "text":"Phoenix"
+                    }
+                }
+            ]
+        }
+        
+    }
+}
+CONSULTA 2
+{
+    "size": 10,
+    "query": {
+        "bool": {
+            "should": [
+                {
+                    "match": 
+                    {
+                        "text":"university"
+                    }
+                },
+                {
+                    "match": 
+                    {
+                        "text":"of"
+                    }
+                },
+                {
+                    "match": 
+                    {
+                        "text":"Phoenix"
+                    }
+                }
+            ]
+        }
+    }
+}
+
+
+CONSULTA 3
+{
+    "size": 10,
+    "query": {
+        "bool": {
+            "should": [
+                {
+                    "match": 
+                    {
+                        "text":"university"
+                    }
+                },
+                {
+                    "match": 
+                    {
+                        "text":"Phoenix"
+                    }
+                }
+            ]
+        }
+    }
+}
+

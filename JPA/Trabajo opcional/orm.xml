@@ -1,0 +1,449 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<entity-mappings xmlns="http://java.sun.com/xml/ns/persistence/orm"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://java.sun.com/xml/ns/persistence/orm http://java.sun.com/xml/ns/persistence/orm_2_0.xsd"
+	version="2.0">
+
+	<!-- Averia quieries -->
+	<named-query name="Averia.findByIds">
+		<query>select a from Averia a where a.id in ?1</query>
+	</named-query>
+
+	<named-query name="Averia.findNoFacturadasByDni">
+		<query>
+			select a 
+			from Averia a 
+			where a.vehiculo.cliente.dni = ?1 
+				and a.status = uo.ri.model.types.AveriaStatus.TERMINADA 
+		</query>
+	</named-query>
+
+	<named-query name="Averia.findWithUnusedBono3ByClienteId">
+		<query>
+			select a 
+			from Averia a 
+			where a.vehiculo.cliente.id = ?1 
+				and a.status = uo.ri.model.types.AveriaStatus.FACTURADA 
+				and a.factura.status = uo.ri.model.types.FacturaStatus.ABONADA
+				and a.usada = false
+		</query>
+	</named-query>
+
+	<!-- MedioPago queries -->
+	<named-query name="MedioPago.findByInvoiceId">
+		<query>
+			select m 
+			from Factura f join f.averias a join a.vehiculo.cliente c join c.mediosPago m 
+			where f.id = ?1
+		</query>
+	</named-query>
+
+	<named-query name="MedioPago.findVouchersByClientId">
+		<query>
+			select m 
+			from MedioPago m
+			where m.dtype = 'TBonos'
+			and m.cliente.id = ?1
+		</query>
+	</named-query>
+
+	<named-query name="MedioPago.findAggregateVoucherDataByClientId">
+		<query>
+			select count(b), sum(b.acumulado), sum(b.disponible)
+			from Bono b
+			where b.cliente.id = ?1
+		</query>
+	</named-query>
+
+	<named-query name="MedioPago.findPaymentMeansByClientId">
+		<query>
+			select m 
+			from Cliente c 
+			join c.mediosPago m 
+			where c.id = ?1
+		</query>
+	</named-query>
+
+	<named-query name="MedioPago.findPaymentMeansByClientId">
+		<query>
+			select m 
+			from Cliente c 
+			join c.mediosPago m 
+			where c.id = ?1
+		</query>
+	</named-query>
+
+
+
+	<!-- Factura queries -->
+	<named-query name="Factura.findByNumber">
+		<query>select f from Factura f where f.numero = ?1</query>
+	</named-query>
+
+	<named-query name="Factura.getNextInvoiceNumber">
+		<query>select max(f.numero) + 1 from Factura f</query>
+	</named-query>
+
+	<named-query name="Factura.findUnusedWithBono500">
+		<query>select f from Factura f 
+				where f.usada = false 
+				and f.importe > 500
+				and f.status = uo.ri.model.types.FacturaStatus.ABONADA</query>
+	</named-query>
+
+
+	<!-- Mecanico queries -->
+	<named-query name="Mecanico.findAll">
+		<query>select m from Mecanico m</query>
+	</named-query>
+
+	<named-query name="Mecanico.findById">
+		<query>select m from Mecanico m where m.id = ?1</query>
+	</named-query>
+
+
+
+	<!-- Cliente queries -->
+	<named-query name="Cliente.findWithThreeUnusedBreakdowns">
+		<query>
+			<!-- Select c
+			from Cliente c
+			join c.vehiculos v
+			join v.averias a
+			where count (a) >=3
+			and a.status = uo.ri.model.types.AveriaStatus.FACTURADA 
+				and a.factura.status = uo.ri.model.types.FacturaStatus.FacturaStatus.ABONADA
+				and a.usada = false -->
+			select c
+			from Cliente c
+			join c.vehiculos v
+			join v.averias a
+			where a.usada = false
+			group by c having count (a) >= 3
+		</query>
+	</named-query>
+
+
+	<!-- <named-query name="findItemsOnSaleByCategoryId"> <query> <![CDATA[ 
+		select i from Item i join i.categories c where c.id = ?2 and i.startDate 
+		<= ?1 and i.endDate >= ?1 ]]> </query> </named-query> -->
+
+
+	<entity class="uo.ri.model.Averia">
+		<table name="TAVERIAS">
+			<unique-constraint>
+				<column-name>FECHA</column-name>
+				<column-name>VEHICULO_ID</column-name>
+			</unique-constraint>
+		</table>
+		<attributes>
+			<id name="id">
+				<generated-value strategy="IDENTITY" />
+			</id>
+			<basic name="descripcion">
+			</basic>
+			<basic name="fecha">
+				<temporal>TIMESTAMP</temporal>
+			</basic>
+			<basic name="status">
+				<enumerated>STRING</enumerated>
+			</basic>
+			<basic name="usada">
+			</basic>
+			<basic name="importe">
+			</basic>
+			<many-to-one name="vehiculo" />
+			<many-to-one name="mecanico" />
+			<many-to-one name="factura" />
+			<one-to-many name="intervenciones" mapped-by="averia" />
+		</attributes>
+	</entity>
+
+	<entity class="uo.ri.model.MedioPago">
+		<table name="TMEDIOSPAGO">
+		</table>
+
+		<inheritance strategy="JOINED" />
+
+		<discriminator-column name="dtype"
+			discriminator-type="STRING" length="5" />
+
+		<attributes>
+			<id name="id">
+				<generated-value strategy="IDENTITY" />
+			</id>
+			<basic name="acumulado">
+			</basic>
+			<basic name="dtype">
+			</basic>
+			<many-to-one name="cliente" />
+			<one-to-many name="cargos" mapped-by="medioPago" />
+		</attributes>
+	</entity>
+
+
+	<entity class="uo.ri.model.Bono">
+		<table name="TBONOS">
+			<unique-constraint>
+				<column-name>CODIGO</column-name>
+			</unique-constraint>
+		</table>
+		<discriminator-value>TBonos</discriminator-value>
+		<attributes>
+			<basic name="disponible">
+			</basic>
+			<basic name="descripcion">
+			</basic>
+			<basic name="codigo">
+			</basic>
+		</attributes>
+	</entity>
+
+
+
+	<entity class="uo.ri.model.TarjetaCredito">
+		<table name="TTARJETASCREDITO">
+			<unique-constraint>
+				<column-name>NUMERO</column-name>
+			</unique-constraint>
+		</table>
+		<discriminator-value>TTarjetasCredito</discriminator-value>
+		<attributes>
+			<basic name="numero">
+			</basic>
+			<basic name="tipo">
+			</basic>
+			<basic name="validez">
+				<temporal>TIMESTAMP</temporal>
+			</basic>
+		</attributes>
+	</entity>
+
+
+	<entity class="uo.ri.model.Metalico">
+		<table name="TMETALICOS">
+		</table>
+		<discriminator-value>TMetalicos</discriminator-value>
+	</entity>
+
+
+
+	<entity class="uo.ri.model.Cargo">
+		<table name="TCARGOS">
+			<unique-constraint>
+				<column-name>FACTURA_ID</column-name>
+				<column-name>MEDIOPAGO_ID</column-name>
+			</unique-constraint>
+		</table>
+		<attributes>
+			<id name="id">
+				<generated-value strategy="IDENTITY" />
+			</id>
+			<many-to-one name="factura" />
+			<many-to-one name="medioPago" />
+		</attributes>
+	</entity>
+
+
+
+	<entity class="uo.ri.model.Cliente">
+		<table name="TCLIENTES">
+			<unique-constraint>
+				<column-name>DNI</column-name>
+			</unique-constraint>
+		</table>
+		<attributes>
+			<id name="id">
+				<generated-value strategy="IDENTITY" />
+			</id>
+			<basic name="dni">
+			</basic>
+			<basic name="nombre">
+			</basic>
+			<basic name="apellidos">
+			</basic>
+			<basic name="telefono">
+			</basic>
+			<basic name="email">
+			</basic>
+			<one-to-many name="recomendaciones" mapped-by="recomendado" />
+			<one-to-many name="vehiculos" mapped-by="cliente" />
+			<one-to-many name="mediosPago" mapped-by="cliente" />
+			<one-to-one name="recomendado"></one-to-one>
+		</attributes>
+	</entity>
+
+	<entity class="uo.ri.model.Factura">
+		<table name="TFACTURAS">
+			<unique-constraint>
+				<column-name>NUMERO</column-name>
+			</unique-constraint>
+		</table>
+		<attributes>
+			<id name="id">
+				<generated-value strategy="IDENTITY" />
+			</id>
+			<basic name="fecha">
+				<temporal>TIMESTAMP</temporal>
+			</basic>
+			<basic name="importe">
+			</basic>
+			<basic name="iva">
+			</basic>
+			<basic name="usada">
+			</basic>
+			<basic name="status">
+				<enumerated>STRING</enumerated>
+			</basic>
+			<one-to-many name="averias" mapped-by="factura" />
+			<one-to-many name="cargos" mapped-by="factura" />
+		</attributes>
+	</entity>
+
+
+	<entity class="uo.ri.model.Intervencion">
+		<table name="TINTERVENCIONES">
+			<unique-constraint>
+				<column-name>MECANICO_ID</column-name>
+				<column-name>AVERIA_ID</column-name>
+			</unique-constraint>
+		</table>
+		<attributes>
+			<id name="id">
+				<generated-value strategy="IDENTITY" />
+			</id>
+			<basic name="minutos">
+			</basic>
+			<many-to-one name="mecanico"></many-to-one>
+			<many-to-one name="averia"></many-to-one>
+			<one-to-many name="sustituciones" mapped-by="intervencion"></one-to-many>
+		</attributes>
+	</entity>
+
+	<entity class="uo.ri.model.Mecanico">
+		<table name="TMECANICOS">
+			<unique-constraint>
+				<column-name>DNI</column-name>
+			</unique-constraint>
+		</table>
+		<attributes>
+			<id name="id">
+				<generated-value strategy="IDENTITY" />
+			</id>
+			<basic name="dni">
+			</basic>
+			<basic name="apellidos">
+			</basic>
+			<basic name="nombre">
+			</basic>
+			<one-to-many name="averias" mapped-by="mecanico"></one-to-many>
+			<one-to-many name="intervenciones" mapped-by="mecanico"></one-to-many>
+		</attributes>
+	</entity>
+
+
+	<entity class="uo.ri.model.Recomendacion">
+		<table name="TRECOMENDACIONES">
+			<unique-constraint>
+				<column-name>RECOMENDADOR_ID</column-name>
+				<column-name>RECOMENDADO_ID</column-name>
+			</unique-constraint>
+		</table>
+		<attributes>
+			<id name="id">
+				<generated-value strategy="IDENTITY" />
+			</id>
+			<basic name="usada">
+			</basic>
+			<many-to-one name="recomendado"></many-to-one>
+			<one-to-one name="recomendador"></one-to-one>
+		</attributes>
+	</entity>
+
+	<entity class="uo.ri.model.Repuesto">
+		<table name="TREPUESTOS">
+			<unique-constraint>
+				<column-name>CODIGO</column-name>
+			</unique-constraint>
+		</table>
+		<attributes>
+			<id name="id">
+				<generated-value strategy="IDENTITY" />
+			</id>
+			<basic name="codigo">
+			</basic>
+			<basic name="descripcion">
+			</basic>
+			<basic name="precio">
+			</basic>
+			<one-to-many name="sustituciones" mapped-by="repuesto"></one-to-many>
+		</attributes>
+	</entity>
+
+
+	<entity class="uo.ri.model.Sustitucion">
+		<table name="TSUSTITUCIONES">
+			<unique-constraint>
+				<column-name>REPUESTO_ID</column-name>
+				<column-name>INTERVENCION_ID</column-name>
+			</unique-constraint>
+		</table>
+		<attributes>
+			<id name="id">
+				<generated-value strategy="IDENTITY" />
+			</id>
+			<basic name="cantidad">
+			</basic>
+			<many-to-one name="intervencion"></many-to-one>
+			<many-to-one name="repuesto"></many-to-one>
+		</attributes>
+	</entity>
+	
+	
+	<entity class="uo.ri.model.TipoVehiculo">
+		<table name="TTIPOSVEHICULO">
+			<unique-constraint>
+				<column-name>NOMBRE</column-name>
+			</unique-constraint>
+		</table>
+		<attributes>
+			<id name="id">
+				<generated-value strategy="IDENTITY" />
+			</id>
+			<basic name="nombre">
+			</basic>
+			<basic name="precioHora">
+			</basic>
+			<one-to-many name="vehiculos" mapped-by="tipo"></one-to-many>
+		</attributes>
+	</entity>
+	
+	
+	
+	<entity class="uo.ri.model.Vehiculo">
+		<table name="TVEHICULOS">
+			<unique-constraint>
+				<column-name>MATRICULA</column-name>
+			</unique-constraint>
+		</table>
+		<attributes>
+			<id name="id">
+				<generated-value strategy="IDENTITY" />
+			</id>
+			<basic name="marca">
+			</basic>
+			<basic name="matricula">
+			</basic>
+			<basic name="modelo">
+			</basic>
+			<basic name="num_Averias">
+			</basic>
+			<many-to-one name="tipo"></many-to-one>
+			<many-to-one name="cliente"></many-to-one>
+			<one-to-many name="averias" mapped-by="vehiculo"></one-to-many>
+		</attributes>
+	</entity>
+
+
+
+</entity-mappings>

@@ -1,0 +1,21 @@
+LIQUIDACIÓN DE FACTURAS
+	Estarán sin abonar (y sin cargos) las siguientes facturas:
+		-Número 243
+		-Número 430
+		-Número 468
+		-Número 499
+		-Número 607
+		-Número 612
+	De tal manera, se podría probar la liquidación de facturas con ellas.
+
+
+LISTADO DE BONOS
+	Hay bonos iniciales, por lo que se pueden listar tanto los de un cliente como los de toda la base de datos.
+
+	
+GENERACIÓN DE BONOS
+	Hay datos suficientes para generarlos tanto por	3 averías como por facturas superiores a 500€. Ninguna factura 
+		ni avería está con el atributo 'usada' a true, por lo que se podría probar con todas.
+	Otra posible prueba podría ser generar los bonos antes de liquidar una factura de las mencionadas anteriormente, 
+	liquidar posteriormente alguna factura superior a 500€ (por ejemplo, la factura con número = 607) y volver a 
+	generar los bonos.

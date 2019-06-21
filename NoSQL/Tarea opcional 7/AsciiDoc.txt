@@ -1,0 +1,190 @@
+= GraphGist
+:neo4j-version:
+:author:
+:twitter:
+:style: #54A835/#1078B5/white:Colorized(name)
+
+GraphGist created to test the various features available to GraphGist rendering
+
+image::http://i.imgur.com/5giAsjq.png[width=600]
+
+= ASCIIdoc formatting
+
+= Level 1 Header
+
+
+
+_italic_
+
+*bold*
+
+`Monospace`
+
+http://www.link.to/
+
+link:http://example.org[Link Text]
+
+
+
+//setup
+//hide
+[source,cypher]
+----
+CREATE
+  (Cervero:Futbolista {Nombre:"Diego", Apellidos:"Cervero Otero", Edad:34, Demarcación:"Delantero", Nacionalidad:"España"}),
+  (Saúl:Futbolista {Nombre:"Saúl", Apellidos:"Berjón Pérez", Edad:31, Demarcación:"Extremo", Nacionalidad:"España"}),
+  (Zaza:Futbolista {Nombre:"Simone", Apellidos:"Zaza", Edad:26, Demarcación:"Delantero", Nacionalidad:"Italia"}),
+  (Parejo:Futbolista {Nombre:"Dani", Apellidos:"Parejo Muñóz", Edad:28, Demarcación:"Medio Centro", Nacionalidad:"España"}),
+  (Falcao:Futbolista {Nombre:"Radamel", Apellidos:"Falcao García", Edad:31, Demarcación:"Delantero", Nacionalidad:"Colombia"}),
+  (Koke:Futbolista {Nombre:"Jorge", Apellidos:"Resurrección Merodio", Edad:25, Demarcación:"Medio Centro", Nacionalidad:"España"}),
+  (Firmino:Futbolista {Nombre:"Roberto", Apellidos:"Firmino Barbosa", Edad:26, Demarcación:"Delantero", Nacionalidad:"Brasil"}),
+  (Lovren:Futbolista {Nombre:"Dejan", Apellidos:"Lovren", Edad:28, Demarcación:"Defensa", Nacionalidad:"Bosnia"}),
+  (Rooney:Futbolista {Nombre:"Wayne", Apellidos:"Rooney", Edad:31, Demarcación:"Extremo", Nacionalidad:"Inglaterra"}),
+  (Mata:Futbolista {Nombre:"Juan", Apellidos:"Mata", Edad:29, Demarcación:"Media Punta", Nacionalidad:"España"}),
+  (Bernat:Futbolista {Nombre:"Joan", Apellidos:"Bernat Velasco", Edad:24, Demarcación:"Lateral", Nacionalidad:"España"}),
+  (Lewandowski:Futbolista {Nombre:"Robert", Apellidos:"Lewandowski", Edad:29, Demarcación:"Delantero", Nacionalidad:"Polonia"}),
+  (Gotze:Futbolista {Nombre:"Mario", Apellidos:"Gotze", Edad:25, Demarcación:"Media Punta", Nacionalidad:"Alemania"}),
+  (Kagawa:Futbolista {Nombre:"Shinji", Apellidos:"Kagawa", Edad:29, Demarcación:"Media Punta", Nacionalidad:"Japón"}),
+  (David:Futbolista {Nombre:"David", Apellidos:"De Gea", Edad:26, Demarcación:"Portero", Nacionalidad:"España"}),
+ (Atletico:Equipo{NombreEquipo:'Atlético de Madrid', socios:105000, estadio:'Wanda Metropolitano', ciudad:'Madrid', añoDeFundacion:1903}),
+ (Valencia:Equipo{NombreEquipo:'Valencia', socios:34000, estadio:'Mestalla', ciudad:'Valencia', añoDeFundacion:1919}),
+ (Oviedo:Equipo{NombreEquipo:'Real Oviedo', socios:20000, estadio:'Carlos Tartiere', ciudad:'Oviedo', añoDeFundacion:1926}),
+ (Liverpool:Equipo{NombreEquipo:'Liverpool FC', socios:25000, estadio:'Anfield', ciudad:'Liverpool', añoDeFundacion:1892}),
+ (Manchester:Equipo{NombreEquipo:'Manchester United', socios:55000, estadio:'Old Trafford', ciudad:'Manchester', añoDeFundacion:1878}),
+ (Everton:Equipo{NombreEquipo:'Everton FC', socios:31000, estadio:'Goodison Park', ciudad:'Liverpool', añoDeFundacion:1878}),
+ (Bayern:Equipo{NombreEquipo:'Bayern München', socios:70000, estadio:'Allianz Arena', ciudad:'Múnich', añoDeFundacion:1900}),
+ (BVB:Equipo{NombreEquipo:'Borussia Dortmund', socios:100000, estadio:'Westfalenstadion', ciudad:'Dortmund', añoDeFundacion:1909}),
+ (LaLiga:Competicion{NombreCompeticion:'LaLiga Santander', numeroEquipos:20, duracionMeses:10, añoDeFundacionCompeticion:1928}),
+ (LaLiga123:Competicion{NombreCompeticion:'LaLiga 1|2|3', numeroEquipos:22, duracionMeses:10, añoDeFundacionCompeticion:1928}),
+ (Copa:Competicion{NombreCompeticion:'Copa del Rey', numeroEquipos:83, duracionMeses:10, añoDeFundacionCompeticion:1903}),
+ (Bundesliga:Competicion{NombreCompeticion:'Bundesliga', numeroEquipos:18, duracionMeses:10, añoDeFundacionCompeticion:1963}),
+ (Premier:Competicion{NombreCompeticion:'Premier League', numeroEquipos:20, duracionMeses:10, añoDeFundacionCompeticion:1992}),
+ (Champions:Competicion{NombreCompeticion:'Champions League', numeroEquipos:32, duracionMeses:10, añoDeFundacionCompeticion:1992}),
+ (España:Pais{NombrePais:'España', continente:'Europa', habitantes: 47000000, mundiales:1, numeroEquipos:1649}),
+ (Alemania:Pais{NombrePais:'Alemania', continente:'Europa', habitantes: 83000000, mundiales:4, numeroEquipos:1700}),
+ (Inglaterra:Pais{NombrePais:'Inglaterra', continente:'Europa', habitantes: 53000000, mundiales:1, numeroEquipos:2000}),
+ (Cervero)-[:JUGO_EN]->(Oviedo),
+ (Saúl)-[:JUEGA_EN]->(Oviedo),
+ (Zaza)-[:JUEGA_EN]->(Valencia),
+ (Parejo)-[:JUEGA_EN]->(Valencia),
+ (Falcao)-[:JUGO_EN]->(Atletico),
+ (Koke)-[:JUEGA_EN]->(Atletico),
+ (Gotze)-[:JUEGA_EN]->(BVB),
+ (Gotze)-[:JUGO_EN]->(Bayern),
+ (Lewandowski)-[:JUEGA_EN]->(Bayern),
+ (Lewandowski)-[:JUGO_EN]->(BVB),
+ (Bernat)-[:JUEGA_EN]->(Bayern),
+ (Bernat)-[:JUGO_EN]->(Valencia),
+ (Mata)-[:JUGO_EN]->(Valencia),
+ (Mata)-[:JUEGA_EN]->(Manchester),
+ (Kagawa)-[:JUEGA_EN]->(BVB),
+ (Kagawa)-[:JUGO_EN]->(Manchester),
+ (Rooney)-[:JUGO_EN]->(Manchester),
+ (Rooney)-[:JUEGA_EN]->(Everton),
+ (David)-[:JUEGA_EN]->(Manchester),
+ (David)-[:JUGO_EN]->(Atletico),
+ (Firmino)-[:JUEGA_EN]->(Liverpool),
+ (Lovren)-[:ESTA_EN]->(Liverpool),
+ (Oviedo)-[:ESTA_EN]->(LaLiga123),
+ (Atletico)-[:ESTA_EN]->(LaLiga),
+ (Valencia)-[:ESTA_EN]->(LaLiga),
+ (Atletico)-[:ESTA_EN]->(Copa),
+ (Valencia)-[:ESTA_EN]->(Copa),
+ (Oviedo)-[:ESTA_EN]->(Copa),
+ (Manchester)-[:ESTA_EN]->(Premier),
+ (Liverpool)-[:ESTA_EN]->(Premier),
+ (Everton)-[:ESTA_EN]->(Premier),
+ (BVB)-[:ESTA_EN]->(Bundesliga),
+ (Bayern)-[:ESTA_EN]->(Bundesliga),
+ (Bundesliga)-[:ESTA_EN]->(Alemania),
+ (LaLiga)-[:ESTA_EN]->(España),
+ (LaLiga123)-[:ESTA_EN]->(España),
+ (Copa)-[:ESTA_EN]->(España),
+ (Premier)-[:ESTA_EN]->(Inglaterra),
+ (BVB)-[:GANO]->(Champions),
+ (Bayern)-[:GANO]->(Champions),
+ (Liverpool)-[:GANO]->(Champions),
+ (Manchester)-[:GANO]->(Champions)
+
+
+
+
+
+
+
+
+----
+
+Full graph:
+
+//graph
+
+
+[source,cypher]
+----
+MATCH (a:Futbolista{Demarcación:'Portero'})-[:JUEGA_EN]->(b:Equipo {NombreEquipo: 'Manchester United'})RETURN a
+----
+Graph result:
+
+//graph_result
+
+
+
+
+
+
+
+
+
+
+[source,cypher]
+----
+
+MATCH (c:Competicion)-[:ESTA_EN]->(p:Pais)
+WHERE p.NombrePais="España" AND c.numeroEquipos>20 AND c.duracionMeses=10
+RETURN c.NombreCompeticion, c.numeroEquipos ORDER BY c.numeroEquipos DESC
+
+----
+
+
+//table
+
+[source,cypher]
+----
+MATCH (m:Futbolista)-[:JUEGA_EN]->(n:Equipo)-[:ESTA_EN]->(p:Competicion)
+WHERE p.NombreCompeticion="Premier League"
+RETURN avg(m.Edad) as EdadMedia, count(*) as NúmeroFutbolistas
+----
+//table
+
+[source,cypher]
+----
+
+MATCH (m:Futbolista)-[:JUEGA_EN]->(n:Equipo)-[:ESTA_EN]->(c:Competicion)-[:ESTA_EN]->(p:Pais)                                                 	WHERE p.NombrePais="España"  and not m.Nacionalidad="España" and not((n)-[:GANO]->())
+		RETURN distinct m.Nombre, m.Apellidos
+
+----
+//table
+
+
+[source,cypher]
+----
+MATCH (m1:Futbolista)-[:JUEGA_EN]->(b:Equipo)<-[:JUEGA_EN]-(m2:Futbolista)
+    WHERE NOT ((m1) = (m2)) 
+   	AND (m1.Nacionalidad=m2.Nacionalidad)
+    AND NOT (m1.Edad=m2.Edad) RETURN m1, m2
+    
+----
+Graph result:
+
+//graph_result
+
+
+[source,cypher]
+----
+MATCH (a:Futbolista)-[:JUGO_EN]->(b:Equipo)<-[:JUEGA_EN]-(c:Futbolista)
+		WHERE not (a.Edad = c.Edad) and not(a.Demarcación = c.Demarcación) and not ((b)-[:GANO]->())
+		RETURN a.Nombre, c.Nombre
+    
+----
+//table
